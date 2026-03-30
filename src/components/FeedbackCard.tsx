@@ -17,7 +17,7 @@ const FeedbackCard = () => {
       <Textarea
         value={feedback}
         onChange={(e) => setFeedback(e.target.value)}
-        placeholder="Type your feedback..."
+        placeholder="Type your feedback... (try 'tone feels off' to see AI enrichment)"
         className="text-xs min-h-[72px] resize-none border-border bg-surface focus-visible:ring-primary/30"
       />
       {showEnrichment && (

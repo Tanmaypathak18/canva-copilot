@@ -21,7 +21,7 @@ const App = () => (
         <div className="h-screen flex flex-col bg-background">
           <AppNav />
           <Routes>
-            <Route path="/" element={<Navigate to="/review" replace />} />
+            <Route path="/" element={<Navigate to="/brief" replace />} />
             <Route path="/brief" element={<Brief />} />
             <Route path="/create" element={<Create />} />
             <Route path="/review" element={<Index />} />

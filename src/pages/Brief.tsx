@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, Circle, ExternalLink } from "lucide-react";
+import { Check, Circle, ExternalLink, X, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const briefData = [
@@ -32,10 +33,46 @@ const activities = [
 
 const Brief = () => {
   const navigate = useNavigate();
+  const [showIntro, setShowIntro] = useState(true);
 
   return (
     <div className="flex-1 overflow-y-auto">
       <div className="max-w-2xl mx-auto py-8 px-6 space-y-6">
+        {/* Walkthrough intro */}
+        {showIntro && (
+          <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 relative">
+            <button onClick={() => setShowIntro(false)} className="absolute top-3 right-3 text-muted-foreground hover:text-foreground">
+              <X className="w-4 h-4" />
+            </button>
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shrink-0">
+                <Sparkles className="w-4 h-4 text-primary-foreground" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground mb-1">Context-Aware Creative Copilot for Canva Teams</p>
+                <p className="text-xs text-muted-foreground leading-relaxed mb-2">
+                  This prototype follows one Instagram Story design through the complete collaboration workflow.
+                  Click through the 4 tabs to see how AI bridges project context across personas and tools.
+                </p>
+                <div className="flex gap-4 text-[11px]">
+                  <span className="text-violet-600 font-medium">Brief: Karen (orchestrator)</span>
+                  <span className="text-pink-600 font-medium">Create: Priya (creator)</span>
+                  <span className="text-blue-600 font-medium">Review: James (reviewer)</span>
+                  <span className="text-green-600 font-medium">Status: Karen (visibility)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Persona label */}
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-full bg-violet-500 flex items-center justify-center">
+            <span className="text-[9px] font-bold text-white">KL</span>
+          </div>
+          <span className="text-xs text-muted-foreground">Karen L. (Marketing Lead) viewing campaign in Asana</span>
+        </div>
+
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">

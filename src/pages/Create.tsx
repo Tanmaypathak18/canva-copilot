@@ -57,8 +57,13 @@ const Create = () => {
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="h-10 border-b border-border flex items-center justify-between px-5 shrink-0 bg-card">
         <div className="flex items-center gap-3">
+          <div className="w-5 h-5 rounded-full bg-pink-500 flex items-center justify-center">
+            <span className="text-[8px] font-bold text-white">PM</span>
+          </div>
+          <span className="text-[11px] text-muted-foreground">Priya M. (APAC Marketing) designing in Canva</span>
+          <span className="text-border">|</span>
           <h1 className="text-[13px] font-semibold text-foreground">Editing</h1>
-          <span className="text-[13px] text-muted-foreground">Untitled design - Instagram Story</span>
+          <span className="text-[13px] text-muted-foreground">Instagram Story</span>
           <Badge variant="secondary" className="text-[10px] bg-primary/10 text-primary border-primary/20">
             Draft
           </Badge>
@@ -155,40 +160,10 @@ const Create = () => {
               </p>
             </div>
 
-            <div className="rounded-lg border border-border bg-card p-4">
-              <div className="flex items-center gap-1.5 mb-3">
-                <Sparkles className="w-3.5 h-3.5 text-primary" />
-                <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider">Recommended Templates</h3>
-              </div>
-              <div className="grid grid-cols-3 gap-2">
-                {templates.map((t) => (
-                  <button
-                    key={t.id}
-                    onClick={() => setSelectedTemplate(t.id)}
-                    className={`relative rounded-lg overflow-hidden border text-left transition-all ${
-                      selectedTemplate === t.id
-                        ? "border-primary ring-1 ring-primary/30"
-                        : "border-border hover:border-primary/20"
-                    }`}
-                  >
-                    <div className={`w-full aspect-[9/16] bg-gradient-to-br ${t.color}`} />
-                    {t.best && (
-                      <div className="absolute top-1 left-1">
-                        <span className="text-[8px] font-semibold bg-primary text-primary-foreground px-1.5 py-0.5 rounded">Best match</span>
-                      </div>
-                    )}
-                    <div className="p-1.5">
-                      <p className="text-[10px] font-medium text-foreground">{t.label}</p>
-                      <p className="text-[9px] text-muted-foreground">Avg approval: {t.approval} days</p>
-                    </div>
-                  </button>
-                ))}
-              </div>
-              <p className="text-[10px] text-muted-foreground mt-2">
-                Ranked by channel fit, audience match, and team approval speed
-              </p>
-            </div>
+            {/* @Canva Copilot Chat - MOVED UP: core AI interaction */}
+            <CopilotChat />
 
+            {/* Copy Analysis */}
             <div className="rounded-lg border border-border bg-card p-4">
               <div className="flex items-center gap-1.5 mb-3">
                 <Sparkles className="w-3.5 h-3.5 text-primary" />
@@ -228,31 +203,42 @@ const Create = () => {
               )}
             </div>
 
+            {/* Recommended Templates */}
             <div className="rounded-lg border border-border bg-card p-4">
-              <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-3">Suggested Assets</h3>
-              <div className="grid grid-cols-3 gap-2 mb-2">
-                {[
-                  { emoji: "👟", label: "Summer kicks" },
-                  { emoji: "🕶️", label: "Shades" },
-                  { emoji: "👕", label: "Drop tee" },
-                ].map((item, i) => (
-                  <div key={i} className="aspect-square rounded-lg bg-muted border border-border flex flex-col items-center justify-center gap-1 hover:border-primary/30 cursor-pointer transition-colors">
-                    <span className="text-lg">{item.emoji}</span>
-                    <span className="text-[9px] text-muted-foreground">{item.label}</span>
-                  </div>
+              <div className="flex items-center gap-1.5 mb-3">
+                <Sparkles className="w-3.5 h-3.5 text-primary" />
+                <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider">Recommended Templates</h3>
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {templates.map((t) => (
+                  <button
+                    key={t.id}
+                    onClick={() => setSelectedTemplate(t.id)}
+                    className={`relative rounded-lg overflow-hidden border text-left transition-all ${
+                      selectedTemplate === t.id
+                        ? "border-primary ring-1 ring-primary/30"
+                        : "border-border hover:border-primary/20"
+                    }`}
+                  >
+                    <div className={`w-full aspect-[9/16] bg-gradient-to-br ${t.color}`} />
+                    {t.best && (
+                      <div className="absolute top-1 left-1">
+                        <span className="text-[8px] font-semibold bg-primary text-primary-foreground px-1.5 py-0.5 rounded">Best match</span>
+                      </div>
+                    )}
+                    <div className="p-1.5">
+                      <p className="text-[10px] font-medium text-foreground">{t.label}</p>
+                      <p className="text-[9px] text-muted-foreground">Avg approval: {t.approval} days</p>
+                    </div>
+                  </button>
                 ))}
               </div>
-              <div className="flex items-center gap-1.5 mt-2">
-                <Badge variant="secondary" className="text-[9px] bg-success/10 text-success border-success/20">
-                  Team library
-                </Badge>
-                <span className="text-[10px] text-muted-foreground">From Q1 campaign shoot</span>
-              </div>
-              <p className="text-[10px] text-primary/70 font-medium mt-1">Team assets get approved 2x faster than stock</p>
+              <p className="text-[10px] text-muted-foreground mt-2">
+                Ranked by channel fit, audience match, and team approval speed
+              </p>
             </div>
 
-            <CampaignMemory />
-
+            {/* Pre-flight Check */}
             <div className="rounded-lg border border-border bg-card p-4">
               <div className="flex items-center justify-between mb-1.5">
                 <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider">Pre-flight Check</h3>
@@ -282,7 +268,32 @@ const Create = () => {
               </div>
             </div>
 
-            <CopilotChat />
+            {/* Suggested Assets */}
+            <div className="rounded-lg border border-border bg-card p-4">
+              <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-3">Suggested Assets</h3>
+              <div className="grid grid-cols-3 gap-2 mb-2">
+                {[
+                  { emoji: "👟", label: "Summer kicks" },
+                  { emoji: "🕶️", label: "Shades" },
+                  { emoji: "👕", label: "Drop tee" },
+                ].map((item, i) => (
+                  <div key={i} className="aspect-square rounded-lg bg-muted border border-border flex flex-col items-center justify-center gap-1 hover:border-primary/30 cursor-pointer transition-colors">
+                    <span className="text-lg">{item.emoji}</span>
+                    <span className="text-[9px] text-muted-foreground">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center gap-1.5 mt-2">
+                <Badge variant="secondary" className="text-[9px] bg-success/10 text-success border-success/20">
+                  Team library
+                </Badge>
+                <span className="text-[10px] text-muted-foreground">From Q1 campaign shoot</span>
+              </div>
+              <p className="text-[10px] text-primary/70 font-medium mt-1">Team assets get approved 2x faster than stock</p>
+            </div>
+
+            {/* Campaign Memory */}
+            <CampaignMemory />
           </div>
 
           <div className="border-t border-border p-4">

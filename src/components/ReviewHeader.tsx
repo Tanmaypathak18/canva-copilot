@@ -14,6 +14,11 @@ const ReviewHeader = ({ status }: ReviewHeaderProps) => {
   return (
     <header className="flex items-center justify-between px-6 py-2.5 border-b border-border bg-card">
       <div className="flex items-center gap-3">
+        <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
+          <span className="text-[8px] font-bold text-white">JR</span>
+        </div>
+        <span className="text-xs text-muted-foreground">James R. (Brand Manager) reviewing submission</span>
+        <span className="text-border">|</span>
         <h1 className="text-sm font-semibold text-foreground tracking-tight">Design Review</h1>
         <span className="text-xs text-muted-foreground">Instagram Story</span>
       </div>

@@ -38,6 +38,14 @@ const Status = () => {
   return (
     <div className="flex-1 overflow-y-auto">
       <div className="max-w-2xl mx-auto py-8 px-6 space-y-6">
+        {/* Persona label */}
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-full bg-violet-500 flex items-center justify-center">
+            <span className="text-[9px] font-bold text-white">KL</span>
+          </div>
+          <span className="text-xs text-muted-foreground">Karen L. (Marketing Lead) tracking progress in Asana</span>
+        </div>
+
         {/* Header */}
         <div className="flex items-center gap-3">
           <h1 className="text-lg font-semibold text-foreground tracking-tight">Q2 Gen Z Summer Drop</h1>
