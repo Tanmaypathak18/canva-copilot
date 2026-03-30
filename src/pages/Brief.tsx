@@ -4,11 +4,12 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, Circle, ExternalLink, X, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useWorkflow } from "@/context/WorkflowContext";
 
 const briefData = [
   { label: "Campaign", value: "Q2 Gen Z Summer Drop" },
   { label: "Channel", value: "Instagram Story" },
-  { label: "Audience", value: "18–24, Gen Z, trend-conscious" },
+  { label: "Audience", value: "18-24, Gen Z, trend-conscious" },
   { label: "Tone", value: "Playful, urgent, casual" },
   { label: "Key message", value: "Summer collection launch, create urgency, highlight limited availability" },
   { label: "Deadline", value: "April 15, 2026" },
@@ -16,29 +17,32 @@ const briefData = [
   { label: "Reviewer", value: "James R., Brand Manager" },
 ];
 
-const milestones = [
-  { label: "Not Started", status: "completed" },
-  { label: "In Progress", status: "active" },
-  { label: "Pending Review", status: "upcoming" },
-  { label: "Revisions", status: "upcoming" },
-  { label: "Approved", status: "upcoming" },
-] as const;
-
-const activities = [
-  { name: "Karen L.", initials: "KL", action: "created the campaign brief", time: "March 24, 9:00am", color: "bg-violet-500" },
-  { name: "System", initials: "AI", action: "brief synced to Canva workspace", time: "March 24, 9:01am", color: "bg-muted-foreground" },
-  { name: "Priya M.", initials: "PM", action: "started design in Canva", time: "March 25, 10:30am", color: "bg-pink-500" },
-  { name: "AI Copilot", initials: "AI", action: "pre-flight scan: 78% ready, 2 items flagged", time: "March 25, 1:00pm", color: "bg-primary" },
-];
+const milestoneLabels = ["Not Started", "In Progress", "Pending Review", "Revisions", "Approved"];
 
 const Brief = () => {
   const navigate = useNavigate();
+  const { phase, activities } = useWorkflow();
   const [showIntro, setShowIntro] = useState(true);
+
+  const phaseIndex = {
+    "not-started": 0,
+    "in-progress": 1,
+    "submitted": 2,
+    "changes-requested": 3,
+    "approved": 4,
+  }[phase];
+
+  const phaseBadge = {
+    "not-started": { label: "Not Started", cls: "bg-muted text-muted-foreground" },
+    "in-progress": { label: "In Progress", cls: "bg-primary/15 text-primary border-primary/20" },
+    "submitted": { label: "Pending Review", cls: "bg-warning/15 text-warning border-warning/20" },
+    "changes-requested": { label: "Revisions Requested", cls: "bg-warning/15 text-warning border-warning/20" },
+    "approved": { label: "Approved", cls: "bg-success text-success-foreground" },
+  }[phase];
 
   return (
     <div className="flex-1 overflow-y-auto">
       <div className="max-w-2xl mx-auto py-8 px-6 space-y-6">
-        {/* Walkthrough intro */}
         {showIntro && (
           <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 relative">
             <button onClick={() => setShowIntro(false)} className="absolute top-3 right-3 text-muted-foreground hover:text-foreground">
@@ -53,6 +57,7 @@ const Brief = () => {
                 <p className="text-xs text-muted-foreground leading-relaxed mb-2">
                   This prototype follows one Instagram Story design through the complete collaboration workflow.
                   Click through the 4 tabs to see how AI bridges project context across personas and tools.
+                  Actions on each page update the shared workflow state across all pages.
                 </p>
                 <div className="flex gap-4 text-[11px]">
                   <span className="text-violet-600 font-medium">Brief: Karen (orchestrator)</span>
@@ -65,7 +70,6 @@ const Brief = () => {
           </div>
         )}
 
-        {/* Persona label */}
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full bg-violet-500 flex items-center justify-center">
             <span className="text-[9px] font-bold text-white">KL</span>
@@ -73,15 +77,13 @@ const Brief = () => {
           <span className="text-xs text-muted-foreground">Karen L. (Marketing Lead) viewing campaign in Asana</span>
         </div>
 
-        {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <h1 className="text-lg font-semibold text-foreground tracking-tight">Q2 Gen Z Summer Drop</h1>
-            <Badge className="bg-primary/15 text-primary border-primary/20 text-xs font-medium">In Progress</Badge>
+            <Badge className={`text-xs font-medium ${phaseBadge.cls}`}>{phaseBadge.label}</Badge>
           </div>
         </div>
 
-        {/* Campaign Brief Card */}
         <Card className="border border-border">
           <div className="px-5 py-3 border-b border-border flex items-center justify-between">
             <span className="text-sm font-semibold text-foreground">Campaign Brief</span>
@@ -97,48 +99,54 @@ const Brief = () => {
           </div>
         </Card>
 
-        {/* Milestone Tracker */}
         <Card className="border border-border px-5 py-5">
           <div className="flex items-center justify-between relative">
-            {/* Connecting line */}
             <div className="absolute top-[11px] left-[11px] right-[11px] h-[2px] bg-border" />
             <div
-              className="absolute top-[11px] left-[11px] h-[2px] bg-success"
-              style={{ width: "calc(25% - 11px)" }}
+              className="absolute top-[11px] left-[11px] h-[2px] bg-success transition-all duration-500"
+              style={{ width: `calc(${(phaseIndex / 4) * 100}% - 11px)` }}
             />
-            {milestones.map(({ label, status }, i) => (
-              <div key={label} className="flex flex-col items-center gap-2 relative z-10">
-                {status === "completed" ? (
-                  <div className="w-[22px] h-[22px] rounded-full bg-success flex items-center justify-center">
-                    <Check className="w-3 h-3 text-success-foreground" />
-                  </div>
-                ) : status === "active" ? (
-                  <div className="w-[22px] h-[22px] rounded-full bg-primary flex items-center justify-center">
-                    <Circle className="w-2.5 h-2.5 text-primary-foreground fill-primary-foreground" />
-                  </div>
-                ) : (
-                  <div className="w-[22px] h-[22px] rounded-full bg-secondary border-2 border-border" />
-                )}
-                <span className={`text-[11px] font-medium ${
-                  status === "active" ? "text-primary" : status === "completed" ? "text-success" : "text-muted-foreground"
-                }`}>
-                  {label}
-                </span>
-              </div>
-            ))}
+            {milestoneLabels.map((label, i) => {
+              const isCompleted = i < phaseIndex;
+              const isActive = i === phaseIndex;
+              return (
+                <div key={label} className="flex flex-col items-center gap-2 relative z-10">
+                  {isCompleted ? (
+                    <div className="w-[22px] h-[22px] rounded-full bg-success flex items-center justify-center">
+                      <Check className="w-3 h-3 text-success-foreground" />
+                    </div>
+                  ) : isActive ? (
+                    <div className="w-[22px] h-[22px] rounded-full bg-primary flex items-center justify-center">
+                      <Circle className="w-2.5 h-2.5 text-primary-foreground fill-primary-foreground" />
+                    </div>
+                  ) : (
+                    <div className="w-[22px] h-[22px] rounded-full bg-secondary border-2 border-border" />
+                  )}
+                  <span className={`text-[11px] font-medium ${
+                    isActive ? "text-primary" : isCompleted ? "text-success" : "text-muted-foreground"
+                  }`}>
+                    {label}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </Card>
 
-        {/* Activity Feed */}
         <Card className="border border-border">
-          <div className="px-5 py-3 border-b border-border">
+          <div className="px-5 py-3 border-b border-border flex items-center justify-between">
             <span className="text-sm font-semibold text-foreground">Activity</span>
+            <span className="text-[11px] text-muted-foreground">{activities.length} events</span>
           </div>
           <div className="px-5 py-3 space-y-4">
             {activities.map((item, i) => (
               <div key={i} className="flex items-start gap-3">
                 <div className={`w-7 h-7 rounded-full ${item.color} flex items-center justify-center shrink-0`}>
-                  <span className="text-[10px] font-bold text-white">{item.initials}</span>
+                  {item.ai ? (
+                    <Sparkles className="w-3 h-3 text-white" />
+                  ) : (
+                    <span className="text-[10px] font-bold text-white">{item.initials}</span>
+                  )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm text-foreground">
@@ -152,7 +160,6 @@ const Brief = () => {
           </div>
         </Card>
 
-        {/* Action */}
         <Button onClick={() => navigate("/create")} className="w-full gap-2">
           <ExternalLink className="w-4 h-4" />
           View in Canva

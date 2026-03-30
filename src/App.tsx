@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { WorkflowProvider } from "./context/WorkflowContext";
 import AppNav from "./components/AppNav";
 import Index from "./pages/Index.tsx";
 import Brief from "./pages/Brief.tsx";
@@ -17,19 +18,21 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <div className="h-screen flex flex-col bg-background">
-          <AppNav />
-          <Routes>
-            <Route path="/" element={<Navigate to="/brief" replace />} />
-            <Route path="/brief" element={<Brief />} />
-            <Route path="/create" element={<Create />} />
-            <Route path="/review" element={<Index />} />
-            <Route path="/status" element={<Status />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
+      <WorkflowProvider>
+        <BrowserRouter>
+          <div className="h-screen flex flex-col bg-background">
+            <AppNav />
+            <Routes>
+              <Route path="/" element={<Navigate to="/brief" replace />} />
+              <Route path="/brief" element={<Brief />} />
+              <Route path="/create" element={<Create />} />
+              <Route path="/review" element={<Index />} />
+              <Route path="/status" element={<Status />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </WorkflowProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

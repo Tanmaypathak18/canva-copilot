@@ -6,8 +6,17 @@ const ENRICHMENT_TRIGGER = "tone feels off";
 const ENRICHMENT_TEXT =
   "The campaign brief requests a casual, urgent tone targeting Gen Z (18\u201324). The current headline uses formal language. Suggested: use shorter, punchy phrasing with urgency signals. See AI-suggested alternatives above.";
 
-const FeedbackCard = () => {
+interface FeedbackCardProps {
+  onFeedbackChange?: (value: string) => void;
+}
+
+const FeedbackCard = ({ onFeedbackChange }: FeedbackCardProps) => {
   const [feedback, setFeedback] = useState("");
+
+  const handleChange = (value: string) => {
+    setFeedback(value);
+    onFeedbackChange?.(value);
+  };
 
   const showEnrichment = feedback.toLowerCase().includes(ENRICHMENT_TRIGGER);
 
@@ -16,7 +25,7 @@ const FeedbackCard = () => {
       <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-3">Feedback</h3>
       <Textarea
         value={feedback}
-        onChange={(e) => setFeedback(e.target.value)}
+        onChange={(e) => handleChange(e.target.value)}
         placeholder="Type your feedback... (try 'tone feels off' to see AI enrichment)"
         className="text-xs min-h-[72px] resize-none border-border bg-surface focus-visible:ring-primary/30"
       />
