@@ -55,18 +55,22 @@ const Create = () => {
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
-      <div className="h-12 border-b border-border flex items-center justify-between px-5 shrink-0">
+      <div className="h-10 border-b border-border flex items-center justify-between px-5 shrink-0 bg-card">
         <div className="flex items-center gap-3">
-          <h1 className="text-sm font-semibold text-foreground">Create</h1>
-          <span className="text-sm text-muted-foreground">Q2 Gen Z Summer Drop</span>
+          <h1 className="text-[13px] font-semibold text-foreground">Editing</h1>
+          <span className="text-[13px] text-muted-foreground">Untitled design - Instagram Story</span>
           <Badge variant="secondary" className="text-[10px] bg-primary/10 text-primary border-primary/20">
             Draft
           </Badge>
         </div>
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Clock className="w-3 h-3" />
-          <span>Auto-saving</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-success" />
+        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5">
+            <Clock className="w-3 h-3" />
+            <span>Auto-saving</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-success" />
+          </div>
+          <span className="text-border">|</span>
+          <span>33%</span>
         </div>
       </div>
 
