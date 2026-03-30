@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, Circle, ExternalLink, X, Sparkles } from "lucide-react";
+import { Check, Circle, ExternalLink, X, Sparkles, AlertTriangle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useWorkflow } from "@/context/WorkflowContext";
 
@@ -21,7 +21,7 @@ const milestoneLabels = ["Not Started", "In Progress", "Pending Review", "Revisi
 
 const Brief = () => {
   const navigate = useNavigate();
-  const { phase, activities } = useWorkflow();
+  const { phase, activities, feedbackText } = useWorkflow();
   const [showIntro, setShowIntro] = useState(true);
 
   const phaseIndex = {
@@ -83,6 +83,19 @@ const Brief = () => {
             <Badge className={`text-xs font-medium ${phaseBadge.cls}`}>{phaseBadge.label}</Badge>
           </div>
         </div>
+
+        {/* Show feedback from reviewer if changes were requested */}
+        {phase === "changes-requested" && feedbackText && (
+          <div className="rounded-lg border border-warning/30 bg-warning/5 px-4 py-3">
+            <div className="flex items-start gap-2.5">
+              <AlertTriangle className="w-4 h-4 text-warning shrink-0 mt-0.5" />
+              <div>
+                <p className="text-xs font-medium text-foreground">James R. requested changes</p>
+                <p className="text-[11px] text-muted-foreground mt-0.5">"{feedbackText}"</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         <Card className="border border-border">
           <div className="px-5 py-3 border-b border-border flex items-center justify-between">

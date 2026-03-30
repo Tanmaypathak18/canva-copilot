@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { Check, Sparkles, Copy } from "lucide-react";
+import { Check, Sparkles, Copy, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { useWorkflow } from "@/context/WorkflowContext";
 
@@ -13,7 +13,7 @@ const derivatives = [
 ];
 
 const Status = () => {
-  const { phase, activities, preflightScore } = useWorkflow();
+  const { phase, activities, preflightScore, feedbackText } = useWorkflow();
   const [showDerivatives, setShowDerivatives] = useState(false);
 
   const phaseIndex = {
@@ -48,6 +48,19 @@ const Status = () => {
           <h1 className="text-lg font-semibold text-foreground tracking-tight">Q2 Gen Z Summer Drop</h1>
           <Badge className={`text-xs font-medium ${phaseBadge.cls}`}>{phaseBadge.label}</Badge>
         </div>
+
+        {/* Show feedback from reviewer if changes were requested */}
+        {phase === "changes-requested" && feedbackText && (
+          <div className="rounded-lg border border-warning/30 bg-warning/5 px-4 py-3">
+            <div className="flex items-start gap-2.5">
+              <AlertTriangle className="w-4 h-4 text-warning shrink-0 mt-0.5" />
+              <div>
+                <p className="text-xs font-medium text-foreground">James R. requested changes</p>
+                <p className="text-[11px] text-muted-foreground mt-0.5">"{feedbackText}"</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Milestone Tracker - reflects real workflow state */}
         <Card className="border border-border px-5 py-5">
